@@ -14,8 +14,13 @@
 */
 
 const Route = use('Route')
+const Database = use('Database')
 
 Route.on('/').render('welcome')
+
+Route.get('/users', async () => {
+  return await Database.table('users').select('*')
+})
 
 Route.get('/logout', 'AuthController.logout').as('logout')
 Route.get('/auth/:provider', 'AuthController.redirectToProvider').as('social.login')

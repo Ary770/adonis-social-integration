@@ -13,6 +13,7 @@ class UserSchema extends Schema {
       table.string('provider_id').nullable()
       table.string('provider').nullable()
       table.string('password', 60).nullable()
+      table.string('token').nullable()
       table.timestamps()
     })
   }

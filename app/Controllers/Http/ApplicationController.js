@@ -2,6 +2,7 @@
 
 const request = use('Request')
 const https = require('https');
+const Media = use('App/Models/Media')
 
 class ApplicationController {
   async getUserInfo ({auth, response}) {
@@ -26,7 +27,7 @@ class ApplicationController {
       }).on("error", (err) => {
         console.log("Error: " + err.message);
       })
-      
+
       return response.redirect('/')
 
     } catch (e) {
@@ -38,23 +39,25 @@ class ApplicationController {
     try {
       const user = await auth.getUser()
 
-      https.get(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${user.token}`, (resp) => {
-        let data = '';
+      request(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${user.token}`, { json: true }, (err, res, body) => {
 
-        resp.on('data', (chunk) => {
-          data += chunk;
-        });
+        if (err) { return console.log(err); }
 
-        resp.on('end', () => {
-          const instagramMedia = JSON.parse(data).data
+        const userMediaJSON = body.data
 
-          return view.render('testing')
-        });
+        userMediaJSON.map( mediaJSON => {
+          const media = new Media()
+          media.location = mediaJSON.location.name
+          media.image = mediaJSON.images.low_resolution.url
+          media.likes = mediaJSON.likes.count
+          if (mediaJSON.caption) {
+            media.text = mediaJSON.caption.text
+          }
+          await user.media().save(media)
+        })
+      });
 
-      }).on("error", (err) => {
-        console.log("Error: " + err.message);
-      })
-
+      debugger
       // return response.send(user)
 
     } catch (e){

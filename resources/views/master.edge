@@ -9,14 +9,14 @@
     <title>AdonisJs Social</title>
 
     <!-- Fonts -->
-    {{ css('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css') }}
-    {{ css('https://fonts.googleapis.com/css?family=Lato:100,300,400,700') }}
+    {{ style('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css') }}
+    {{ style('https://fonts.googleapis.com/css?family=Lato:100,300,400,700') }}
 
     <!-- Styles -->
-    {{ css('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css') }}
-    {{ css('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css') }}
+    {{ style('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css') }}
+    {{ style('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css') }}
 
-    {{ css('style.css') }}
+    {{ style('style.css') }}
 </head>
 
 <body id="app-layout">
@@ -26,7 +26,7 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    
+
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -52,7 +52,6 @@
 </nav>
 
 @!section('content')
-
 
 <!-- JavaScripts -->
 {{ script('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js') }}

@@ -26,4 +26,5 @@ Route.get('/logout', 'AuthController.logout').as('logout')
 Route.get('/auth/:provider', 'AuthController.redirectToProvider').as('social.login')
 Route.get('/authenticated/:provider', 'AuthController.handleProviderCallback').as('social.login.callback')
 
+Route.get('/user-info', 'ApplicationController.getUserInfo').as('getUserInfo')
 Route.get('/recent-media', 'ApplicationController.getRecentMedia').as('getRecentMedia')

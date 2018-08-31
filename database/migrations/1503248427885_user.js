@@ -14,6 +14,10 @@ class UserSchema extends Schema {
       table.string('provider').nullable()
       table.string('password', 60).nullable()
       table.string('token').nullable()
+      table.string('bio').nullable()
+      table.string('website').nullable()
+      table.integer('follows').nullable()
+      table.integer('followed_by').nullable()
       table.timestamps()
     })
   }

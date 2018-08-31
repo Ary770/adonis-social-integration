@@ -15,10 +15,26 @@
                                 <img src="{{ auth.user.avatar }}">
                                 <h2>{{ auth.user.name }}</h2>
                                 <h5>{{ auth.user.provider }}</h5>
+                                @if(auth.user.bio)
+                                  <h5>Bio: {{ auth.user.bio }}</h5>
+                                @endif
+                                @if(auth.user.website)
+                                  <h5>Website: {{ auth.user.website }}</h5>
+                                @endif
+                                @if(auth.user.follows)
+                                  <h5>Followers: {{ auth.user.follows }}</h5>
+                                @endif
+                                @if(auth.user.followed_by)
+                                  <h5>Followed By: {{ auth.user.followed_by }}</h5>
+                                @endif
                             </div>
                             <div>
+                              <a href="{{ route('getUserInfo')}}"
+                                 class="btn btn-block btn-instagram">
+                                  Get More User Info
+                              </a>
                               <a href="{{ route('getRecentMedia')}}"
-                                 class="btn btn-block btn-instagram btn-social">
+                                 class="btn btn-block btn-instagram">
                                   Get Recent Media
                               </a>
                             </div>

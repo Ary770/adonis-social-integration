@@ -27,11 +27,35 @@
                                 @if(auth.user.followed_by)
                                   <h5>Followed By: {{ auth.user.followed_by }}</h5>
                                 @endif
+                                <br>
+                                @if(auth.user.fb_id)
+                                  <h5>From Facebook</h5>
+                                  <h5>Facebook Id: {{ auth.user.fb_id }}</h5>
+                                @endif
+                                @if(auth.user.birthday)
+                                  <h5>Birthday: {{ auth.user.birthday }}</h5>
+                                @endif
+                                @if(auth.user.email)
+                                  <h5>Email: {{ auth.user.email }}</h5>
+                                @endif
+                                @if(auth.user.last_name)
+                                  <h5>Last Name: {{ auth.user.last_name }}</h5>
+                                @endif
+                                @if(auth.user.gender)
+                                  <h5>Gender: {{ auth.user.gender }}</h5>
+                                @endif
+                                @if(auth.user.hometown)
+                                  <h5>Hometown: {{ auth.user.hometown }}</h5>
+                                @endif
                             </div>
                             <div>
                               <a href="{{ route('getUserInfo')}}"
                                  class="btn btn-block btn-instagram">
                                   Get More User Info
+                              </a>
+                              <a href="{{ route('getFBUserInfo')}}"
+                                 class="btn btn-block btn-facebook">
+                                  Get User Info From Facebook
                               </a>
                               <a href="{{ route('getRecentMedia')}}"
                                  class="btn btn-block btn-instagram">
@@ -51,12 +75,6 @@
                                 <a href="{{ route('social.login', {provider: 'instagram'}) }}"
                                    class="btn btn-block btn-instagram btn-social">
                                     <i class="fa fa-instagram"></i>Login with Instagram
-                                </a>
-                            </div>
-                            <div class="col col-md-6">
-                                <a href="{{ route('social.login', {provider: 'facebook'}) }}"
-                                   class="btn btn-block btn-facebook btn-social">
-                                    <i class="fa fa-facebook"></i>Login with Facebook
                                 </a>
                             </div>
                         </div>

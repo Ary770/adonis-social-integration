@@ -3,6 +3,7 @@
 const request = use('Request')
 const https = require('https');
 const Media = use('App/Models/Media')
+const Env = use('Env')
 
 class ApplicationController {
   async getUserInfo ({auth, response}) {
@@ -35,6 +36,31 @@ class ApplicationController {
     }
   }
 
+  async getFBUserInfo ({auth, response}) {
+    try {
+      const user = await auth.getUser()
+      const fbToken = Env.get('FB_TOKEN')
+
+      request(`https://graph.facebook.com/v3.1/10214022366608047?fields=email%2Cgender%2Chometown%2Clikes%2Cposts%2Cbirthday%2Clast_name%2Cid&access_token=${fbToken}`, { json: true }, (err, res, body) => {
+        if (err) { return console.log(err); }
+        debugger
+        user.fb_id = body.id
+        user.email = body.email
+        user.birthday = body.birthday
+        user.last_name = body.last_name
+        user.gender =  body.gender
+        if (body.hometown.name)
+          user.hometown = body.hometown.name
+        user.save()
+      })
+
+    return response.redirect('/')
+
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   async getRecentMedia ({auth, view, response}) {
     try {
       const user = await auth.getUser()
@@ -46,6 +72,7 @@ class ApplicationController {
         const userMediaJSON = body.data
 
         userMediaJSON.map( mediaJSON => {
+          debugger
           const media = new Media()
           media.location = mediaJSON.location.name
           media.image = mediaJSON.images.low_resolution.url
@@ -56,8 +83,6 @@ class ApplicationController {
           user.media().save(media)
         })
       });
-
-      debugger
       // return response.send(user)
 
     } catch (e){

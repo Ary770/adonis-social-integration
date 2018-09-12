@@ -18,6 +18,11 @@ class UserSchema extends Schema {
       table.string('website').nullable()
       table.integer('follows').nullable()
       table.integer('followed_by').nullable()
+      table.string('birthday').nullable()
+      table.string('last_name').nullable()
+      table.string('gender').nullable()
+      table.string('hometown').nullable()
+      table.integer('fb_id').nullable()
       table.timestamps()
     })
   }

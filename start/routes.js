@@ -27,4 +27,5 @@ Route.get('/auth/:provider', 'AuthController.redirectToProvider').as('social.log
 Route.get('/authenticated/:provider', 'AuthController.handleProviderCallback').as('social.login.callback')
 
 Route.get('/user-info', 'ApplicationController.getUserInfo').as('getUserInfo')
+Route.get('/fb-user-info', 'ApplicationController.getFBUserInfo').as('getFBUserInfo')
 Route.get('/recent-media', 'ApplicationController.getRecentMedia').as('getRecentMedia')

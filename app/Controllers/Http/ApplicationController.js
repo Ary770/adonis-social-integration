@@ -53,7 +53,7 @@ class ApplicationController {
           if (mediaJSON.caption) {
             media.text = mediaJSON.caption.text
           }
-          await user.media().save(media)
+          user.media().save(media)
         })
       });
 

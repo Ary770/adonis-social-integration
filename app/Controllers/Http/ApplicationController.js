@@ -65,14 +65,14 @@ class ApplicationController {
     try {
       const user = await auth.getUser()
 
-      request(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${user.token}`, { json: true }, (err, res, body) => {
+
+      await request(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${user.token}`, { json: true }, (err, res, body) => {
 
         if (err) { return console.log(err); }
 
         const userMediaJSON = body.data
 
         userMediaJSON.map( mediaJSON => {
-          debugger
           const media = new Media()
           media.location = mediaJSON.location.name
           media.image = mediaJSON.images.low_resolution.url
@@ -80,13 +80,17 @@ class ApplicationController {
           if (mediaJSON.caption) {
             media.text = mediaJSON.caption.text
           }
+          debugger
           user.media().save(media)
         })
       });
-      // return response.send(user)
+
+      const userMedia = await user.media().fetch()
+
+      return response.send(userMedia)
 
     } catch (e){
-      console.log('Log in first!')
+      console.log(e)
     }
   }
 }

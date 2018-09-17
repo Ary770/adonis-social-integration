@@ -43,7 +43,7 @@ class ApplicationController {
 
       request(`https://graph.facebook.com/v3.1/10214022366608047?fields=email%2Cgender%2Chometown%2Clikes%2Cposts%2Cbirthday%2Clast_name%2Cid&access_token=${fbToken}`, { json: true }, (err, res, body) => {
         if (err) { return console.log(err); }
-        debugger
+
         user.fb_id = body.id
         user.email = body.email
         user.birthday = body.birthday
@@ -51,6 +51,7 @@ class ApplicationController {
         user.gender =  body.gender
         if (body.hometown.name)
           user.hometown = body.hometown.name
+
         user.save()
       })
 
@@ -62,11 +63,9 @@ class ApplicationController {
   }
 
   async getRecentMedia ({auth, view, response}) {
+    const user = await auth.getUser()
     try {
-      const user = await auth.getUser()
-
-
-      await request(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${user.token}`, { json: true }, (err, res, body) => {
+      request(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${user.token}`, { json: true }, (err, res, body) => {
 
         if (err) { return console.log(err); }
 
@@ -74,23 +73,33 @@ class ApplicationController {
 
         userMediaJSON.map( mediaJSON => {
           const media = new Media()
-          media.location = mediaJSON.location.name
-          media.image = mediaJSON.images.low_resolution.url
-          media.likes = mediaJSON.likes.count
+
+          media.id = parseInt(mediaJSON.id)
+
+          if (mediaJSON.location) {
+            media.location = mediaJSON.location.name
+          }
+          if (mediaJSON.images) {
+            media.image = mediaJSON.images.low_resolution.url
+          }
+
+          if (mediaJSON.likes) {
+            media.likes = mediaJSON.likes.count
+          }
+
           if (mediaJSON.caption) {
             media.text = mediaJSON.caption.text
           }
-          debugger
+
           user.media().save(media)
         })
       });
-
+    } catch (e){
+      console.log(e)
+    } finally {
       const userMedia = await user.media().fetch()
 
       return response.send(userMedia)
-
-    } catch (e){
-      console.log(e)
     }
   }
 }

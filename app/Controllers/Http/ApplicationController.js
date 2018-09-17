@@ -72,26 +72,28 @@ class ApplicationController {
         const userMediaJSON = body.data
 
         userMediaJSON.map( mediaJSON => {
-          const media = new Media()
+          if (!Media.find(parseInt(mediaJSON.id))) { 
+            const media = new Media()
 
-          media.id = parseInt(mediaJSON.id)
+            media.id = parseInt(mediaJSON.id)
 
-          if (mediaJSON.location) {
-            media.location = mediaJSON.location.name
+            if (mediaJSON.location) {
+              media.location = mediaJSON.location.name
+            }
+            if (mediaJSON.images) {
+              media.image = mediaJSON.images.low_resolution.url
+            }
+
+            if (mediaJSON.likes) {
+              media.likes = mediaJSON.likes.count
+            }
+
+            if (mediaJSON.caption) {
+              media.text = mediaJSON.caption.text
+            }
+
+            user.media().save(media)
           }
-          if (mediaJSON.images) {
-            media.image = mediaJSON.images.low_resolution.url
-          }
-
-          if (mediaJSON.likes) {
-            media.likes = mediaJSON.likes.count
-          }
-
-          if (mediaJSON.caption) {
-            media.text = mediaJSON.caption.text
-          }
-
-          user.media().save(media)
         })
       });
     } catch (e){
